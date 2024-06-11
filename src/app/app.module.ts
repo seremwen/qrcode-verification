@@ -4,9 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { DialogComponent } from './components/dialog/dialog.component';
-import { AppInfoComponent } from './components/app-info/app-info.component';
-import { FormatsDialogComponent } from './components/formats-dialog/formats-dialog.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,13 +17,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatCardModule} from '@angular/material/card';
+import { ScanQrcodeComponent } from './pages/scan-qrcode/scan-qrcode.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
+import { FooterComponent } from './pages/footer/footer.component';
+import { HomeComponent } from './pages/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
-    DialogComponent,
-    AppInfoComponent,
-    FormatsDialogComponent
+    ScanQrcodeComponent,
+    NavBarComponent,
+    FooterComponent,
+    HomeComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   FormsModule,
 
   // Material
+  MatCardModule,
   MatDialogModule,
+  MatExpansionModule,
   MatListModule,
   MatTooltipModule,
   MatButtonModule,
@@ -45,7 +52,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   MatInputModule,
   MatMenuModule,
   MatIconModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSidenavModule
   ],
   providers: [
     provideAnimationsAsync()

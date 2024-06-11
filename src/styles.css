@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body {
     margin: 0;
-    background: #333;
+    background: #e6dfdf;
     color: #aaa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
@@ -13,3 +13,130 @@ body {
   
   html, body { height: 100%; }
   body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #462ac2;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.navbar .logo img {
+    height: 40px;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s;
+}
+
+.navbar .nav-links li a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 80px auto 60px; /* Adjusted for navbar and footer height */
+    padding: 20px;
+    text-align: center;
+}
+
+.columns {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.column {
+    flex: 1;
+    padding: 20px;
+}
+
+.certificate-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.verify-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #462ac2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.clear-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: rgb(196, 51, 51);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.verify-button:hover {
+    background-color: #575757;
+}
+
+.verification-instructions {
+    text-align: left;
+}
+
+.verification-instructions h2,
+.verification-instructions h3 {
+    margin: 20px 0 10px;
+}
+
+.verification-instructions ul,
+.verification-instructions ol {
+    margin: 10px 0 10px 20px;
+}
+
+.verification-instructions ul ul {
+    list-style-type: circle;
+    margin-left: 20px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #444dc9;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;
+}

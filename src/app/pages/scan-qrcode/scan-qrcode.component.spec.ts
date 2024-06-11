@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogComponent } from './dialog.component';
+import { ScanQrcodeComponent } from './scan-qrcode.component';
 
-describe('DialogComponent', () => {
-  let component: DialogComponent;
-  let fixture: ComponentFixture<DialogComponent>;
+describe('ScanQrcodeComponent', () => {
+  let component: ScanQrcodeComponent;
+  let fixture: ComponentFixture<ScanQrcodeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DialogComponent]
+      declarations: [ScanQrcodeComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DialogComponent);
+    fixture = TestBed.createComponent(ScanQrcodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

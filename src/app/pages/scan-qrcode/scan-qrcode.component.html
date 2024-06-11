@@ -1,0 +1,61 @@
+
+ <div class="columns">
+    <div class="column">
+        <zxing-scanner [torch]="torchEnabled" [device]="deviceCurrent" (deviceChange)="onDeviceChange($event)" (scanSuccess)="onCodeResult($event)"
+        [formats]="formatsEnabled"  (permissionResponse)="onHasPermission($event)"
+        (camerasFound)="onCamerasFound($event)" (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+    
+        <button class="verify-button" routerLink="/home">Back</button>
+    </div>
+    <div class="column">
+        <div class="verification-instructions">
+            <section class="results" *ngIf="qrResultString">
+                <div>
+                  <h2>Verification Results</h2>
+                  <strong>{{ qrResultString }}</strong>
+                </div>
+                
+                <button class="clear-button" (click)="clearResult()">Clear Results</button>
+              </section>
+              <section *ngIf="!qrResultString">
+              <div class="loader"> </div>
+              <h2>Detecting QR code</h2>
+      </section>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="hasPermission === undefined">
+
+    <h2>Waiting for permissions.</h2>
+  
+    <blockquote>
+      If your device does not has cameras, no permissions will be asked.
+    </blockquote>
+  
+  </ng-container>
+  
+  <ng-container *ngIf="hasPermission === false">
+  
+    <h2>You denied the camera permission, we can't scan anything without it. 😪</h2>
+  
+  </ng-container>
+  
+  <ng-container *ngIf="hasDevices === undefined">
+  
+    <h2>Couldn't check for devices.</h2>
+  
+    <blockquote>
+      This may be caused by some security error.
+    </blockquote>
+  
+  </ng-container>
+  
+  <ng-container *ngIf="hasDevices === false">
+  
+    <h2>No devices were found.</h2>
+  
+    <blockquote>
+      I believe your device has no media devices attached to.
+    </blockquote>
+  
+  </ng-container>
