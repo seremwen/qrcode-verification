@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { BarcodeFormat } from '@zxing/library';
+import JSZip from 'jszip';
 
 @Component({
   selector: 'app-scan-qrcode',
@@ -12,7 +13,7 @@ export class ScanQrcodeComponent {
   availableDevices!: MediaDeviceInfo[];
   deviceCurrent!: MediaDeviceInfo;
   deviceSelected!: string;
-
+  result!: string;
   formatsEnabled: BarcodeFormat[] = [
     BarcodeFormat.CODE_128,
     BarcodeFormat.DATA_MATRIX,
@@ -44,7 +45,21 @@ export class ScanQrcodeComponent {
 
   onCodeResult(resultString: string) {
     this.qrResultString = resultString;
+    if (resultString) {
+      const zip = new JSZip();
+      zip.loadAsync(resultString).then((contents) => {
+        const CERTIFICATE_FILE = 'data.txt'; // Replace with your actual file name
+        return contents.files[CERTIFICATE_FILE].async('text');
+      }).then((contents) => {
+        this.result = contents;
+        console.log('Unzipped Data:', this.result);
+      }).catch(err => {
+        this.result = resultString;
+        console.error('Error unzipping data:', err);
+      });
+    }
   }
+  
 
 
 
