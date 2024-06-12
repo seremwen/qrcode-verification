@@ -5,14 +5,14 @@
         [formats]="formatsEnabled"  (permissionResponse)="onHasPermission($event)"
         (camerasFound)="onCamerasFound($event)" (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
     
-        <button class="verify-button" routerLink="/home">Back</button>
+        <button class="verify-button" routerLink="/home">Back2</button>
     </div>
     <div class="column">
         <div class="verification-instructions">
             <section class="results" *ngIf="qrResultString">
                 <div>
                   <h2>Verification Results</h2>
-                  <strong>{{ qrResultString }}</strong>
+                  <strong>{{ result }}</strong>
                 </div>
                 
                 <button class="clear-button" (click)="clearResult()">Clear Results</button>
