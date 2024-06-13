@@ -12,7 +12,8 @@
             <section class="results" *ngIf="qrResultString">
                 <div>
                   <h2>Verification Results</h2>
-                  <strong>{{ result }}</strong>
+                  <!-- <strong>{{ result }}</strong> -->
+                  <strong>{{ finalData }}</strong>
                 </div>
                 
                 <button class="clear-button" (click)="clearResult()">Clear Results</button>
