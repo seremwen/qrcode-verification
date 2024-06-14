@@ -1,4 +1,4 @@
-<div class="columns">
+<!-- <div class="columns">
     <div class="column">
         <img src="./../assets/verify-certificate.png" alt="Certificate Image" class="certificate-image">
         <button class="verify-button" routerLink="/verify">Verify Certificate</button>
@@ -41,4 +41,79 @@
             <p>You can view a video of 'how to verify' <a href="#">here</a>.</p>
         </div>
     </div>
-</div>
+</div> -->
+
+<div class="container-fluid verify-certificate-wrapper">
+    <ng-container *ngIf="!result">
+      <ng-container *ngIf="!showScanner">
+        <img src="../../assets/img/verify-certificate.png" class="banner-img" alt="banner-img" />
+        <h3 class="text-center">Verify a vaccination certificate</h3>
+        <app-custom-button (click)="toggleScanner()">
+          <span>Scan QR code</span>
+          <img class="ml-3" src="../../assets/img/qr-code.svg" alt="" />
+        </app-custom-button>
+        <div class="mt-5 p-4 mb-5">
+          <p>The Co-WIN vaccination certificate has a digitally signed secure QR code. This can be authenticated online using the verification utility in this portal or using third party verification app using the services outlined below.</p>
+          <!-- Online verification steps -->
+          <h6 style="color:#646D82">Option 1 – Online verification</h6>
+          <p style="color:#646D82">Steps for online verification:</p>
+          <ol class="verify-steps">
+            <li>Visit <a href="https://verify.cowin.gov.in/">https://verify.cowin.gov.in/</a></li>
+            <li>Click on <b>“Scan QR”</b> code</li>
+            <li>A notification will prompt to activate your device’s camera</li>
+            <li>Point the camera to the QR code on the bottom right of the certificate issued and scan</li>
+            <li>Please keep the following points in mind while scanning the QR code</li>
+            <ul class="success-verify">
+              <li>QR code should cover at-least 70%-80% of screen</li>
+              <li>Complete QR code should be part of camera frame</li>
+              <li>QR code should be parallel to the camera</li>
+              <li>Camera should be hold steadily for at-least 5 sec</li>
+            </ul>
+            <li>If camera is unable to read the QR code within 45 seconds, a message - <b>“Camera is not able to read the QR code, please try again”</b> with a try again button will be displayed. Verifier will be required to scan the QR code again following the instructions mentioned in Step 2.</li>
+            <li>On successful verification, following attributes are displayed on the screen:</li>
+            <div class="row">
+              <div class="col">
+                <ul class="success-verify">
+                  <li>Message <b>“Certificate Successfully Verified”</b></li>
+                  <li>Name</li>
+                  <li>Age</li>
+                  <li>Gender</li>
+                  <li>Certificate ID</li>
+                  <li>Beneficiary ID</li>
+                  <li>Vaccine Name</li>
+                  <li>Date of Dose</li>
+                  <li>Vaccination Status</li>
+                  <li>Vaccination at</li>
+                </ul>
+              </div>
+              <div class="col">
+                <img src="../../assets/img/ValidCertificate.png" alt="" />
+              </div>
+            </div>
+            <li>In case of an unsuccessful verification if the certificate is not genuine, screen will show the message “Certificate Invalid”</li>
+            <img src="../../assets/img/InvalidCertificate.jpeg" alt="" />
+          </ol>
+          <p>You can view a <a href="https://divoc.egov.org.in/demo-videos/13.-certificate-verification" target="_blank">demo video</a> of 'how to verify’</p>
+          <hr style="margin-top: 3rem; margin-bottom: 3rem" />
+          <!-- Offline verification steps -->
+          <h6 style="color:#646D82">Option 2 – Offline verification through third party verifier app</h6>
+          <p style="color:#646D82">Steps for offline verification:</p>
+          <ol class="verify-steps">
+            <li>Access the Co-WIN verification service and code for set up <a href="https://github.com/egovernments/DIVOC/tree/india/verification" target="_blank">here</a></li>
+            <li>Get code snippet for reference and implement</li>
+            <li>Replace the public key used in code snippet with Public key available <a href="https://verify.cowin.gov.in/did:india" target="_blank">here</a>.</li>
+            <li>Implement the verification service in your apps to scan, read and validate Co-WIN certificates</li>
+          </ol>
+          <p>In case you need any clarification or support in implementing the verifier app, contact <a href="mailto:divoc-support@egov.org.in">divoc-supportegov.org.in</a> or <a href="mailto:partner@cowin.gov.in">partnerowin.gov.in</a></p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="showScanner">
+        <app-qrscanner (onScan)="handleScan($event)" (onError)="handleError($event)"></app-qrscanner>
+        <app-custom-button (click)="toggleScanner()">BACK</app-custom-button>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="result">
+      <app-certificate-status [certificateData]="result" (goBack)="reset()"></app-certificate-status>
+    </ng-container>
+  </div>
+  

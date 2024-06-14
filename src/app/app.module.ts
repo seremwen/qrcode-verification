@@ -24,6 +24,12 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LOAD_WASM, NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { CertificateStatusComponent } from './pages/certificate-status/certificate-status.component';
+import { CustomButtonComponent } from './pages/custom-button/custom-button.component';
+import { QRScannerComponent } from './pages/qrscanner/qrscanner.component';
+
+LOAD_WASM().subscribe();
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +37,9 @@ import { HomeComponent } from './pages/home/home.component';
     NavBarComponent,
     FooterComponent,
     HomeComponent,
+    CertificateStatusComponent,
+    CustomButtonComponent,
+    QRScannerComponent,
    
   ],
   imports: [
@@ -39,6 +48,7 @@ import { HomeComponent } from './pages/home/home.component';
     AppRoutingModule,
     BrowserAnimationsModule,
   FormsModule,
+  NgxScannerQrcodeModule,
 
   // Material
   MatCardModule,

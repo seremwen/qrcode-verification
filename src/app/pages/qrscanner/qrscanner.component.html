@@ -1,0 +1,13 @@
+<div id="videoview">
+    <video
+      #video
+      autoplay
+      [attr.width]="width"
+      [attr.height]="height"
+      [src]="src"
+      [class]="className"
+      playsinline
+    ></video>
+    <canvas #overlay [attr.width]="width" [attr.height]="height"></canvas>
+  </div>
+  
