@@ -22,7 +22,8 @@ export class HomeComponent {
       zip.loadAsync(data)
         .then((contents) => {
           console.log('Zip contents:', contents); // Log the contents of the zip
-          this.contentOf= contents
+          this.contentOf= Object.keys(contents.files)
+          console.log('Files in zip:', Object.keys(contents.files));
           return contents.files[this.CERTIFICATE_FILE].async('text');
         })
         .then((contents) => {
