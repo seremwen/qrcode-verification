@@ -122,31 +122,42 @@ src: any;
     this.qrResultString = data;
     if (data) {
       console.log('Scanned data:', data); // Log the initial scanned data
-      this.contentOf=data
+      this.contentOf = data;
       console.log('Data type:', typeof data); // Log the type of the data
       console.log('Data length:', data.length); // Log the length of the data
-   
-      // If data is base64 encoded, decode it
+  
+      // Check if the data is base64 encoded
       const isBase64 = /^[A-Za-z0-9+/=]+$/.test(data);
       const binaryData = isBase64 ? atob(data) : data;
+  
+      // Convert binary data to a Uint8Array
+      const uint8Array = new Uint8Array(binaryData.length);
+      for (let i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+      }
+  
+      // Initialize JSZip
       const zip = new JSZip();
-      zip.loadAsync(binaryData)
+  
+      zip.loadAsync(uint8Array)
         .then((contents) => {
           console.log('Zip contents:', contents); // Log the contents of the zip
-          this.contentOf= contents.files[this.CERTIFICATE_FILE].async('text')
           console.log('Files in zip:', Object.keys(contents.files));
-          return contents.files[this.CERTIFICATE_FILE].async('text');
+  
+          // Extract the certificate.json file
+          return contents.files['certificate.json'].async('text');
         })
-        .then((contents) => {
-          console.log('Unzipped file contents:', contents); // Log the unzipped file contents
-          this.result = contents;
+        .then((certificateContents) => {
+          console.log('Unzipped file contents:', certificateContents); // Log the unzipped file contents
+          this.result = certificateContents; // Store the certificate contents
         })
         .catch((err) => {
           console.error('Error unzipping data:', err); // Log any errors
-          this.result = data;
+          this.result = data; // Fallback to original data
         });
     }
   }
+  
 }
 //   availableDevices!: MediaDeviceInfo[];
 //   deviceCurrent!: MediaDeviceInfo;
