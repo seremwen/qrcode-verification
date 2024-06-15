@@ -122,7 +122,7 @@ src: any;
     this.qrResultString = data;
     if (data) {
       console.log('Scanned data:', data); // Log the initial scanned data
-      this.contentOf = data;
+     
       console.log('Data type:', typeof data); // Log the type of the data
       console.log('Data length:', data.length); // Log the length of the data
   
@@ -148,6 +148,7 @@ src: any;
           return contents.files['certificate.json'].async('text');
         })
         .then((certificateContents) => {
+          this.contentOf=certificateContents
           console.log('Unzipped file contents:', certificateContents); // Log the unzipped file contents
           this.result = certificateContents; // Store the certificate contents
         })
