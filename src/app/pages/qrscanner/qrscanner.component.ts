@@ -1,5 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { BrowserMultiFormatReader, Result } from '@zxing/library';
+import { BarcodeFormat, BrowserMultiFormatReader, Result } from '@zxing/library';
+import JSZip from 'jszip';
+import { BehaviorSubject } from 'rxjs';
 import { scanImageData } from 'zbar.wasm';
 
 @Component({
@@ -8,6 +10,25 @@ import { scanImageData } from 'zbar.wasm';
   styleUrl: './qrscanner.component.css'
 })
 export class QRScannerComponent implements OnInit, OnDestroy {
+  availableDevices!: MediaDeviceInfo[];
+  deviceCurrent!: MediaDeviceInfo;
+  deviceSelected!: string;
+  result!: string;
+  formatsEnabled: BarcodeFormat[] = [
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.DATA_MATRIX,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.QR_CODE,
+  ];
+
+  hasDevices!: boolean;
+  hasPermission!: boolean;
+
+  qrResultString!: any;
+
+  torchEnabled = false;
+  torchAvailable$ = new BehaviorSubject<boolean>(false);
+  tryHarder = false;
   @Input() className: string = '';
   @Input() height: number = 1000;
   @Input() width: number = 1000;
@@ -24,6 +45,42 @@ src: any;
     if (this.hasGetUserMedia()) {
       this.requestUserMedia();
     }
+  }
+  clearResult(): void {
+    this.qrResultString = null;
+  }
+
+  onCamerasFound(devices: MediaDeviceInfo[]): void {
+    this.availableDevices = devices;
+    console.log(this.availableDevices);
+    
+    this.hasDevices = Boolean(devices && devices.length);
+  }
+  onDeviceChange(device: MediaDeviceInfo) {
+    const selectedStr = device?.deviceId || '';
+    if (this.deviceSelected === selectedStr) { return; }
+    this.deviceSelected = selectedStr;
+    this.deviceCurrent = device || undefined;
+  }
+
+  onHasPermission(has: boolean) {
+    this.hasPermission = has;
+  }
+
+  openInfoDialog() {
+    const data = {
+      hasDevices: this.hasDevices,
+      hasPermission: this.hasPermission,
+    };
+
+  }
+
+  onTorchCompatible(isCompatible: boolean): void {
+    this.torchAvailable$.next(isCompatible || false);
+  }
+
+  toggleTorch(): void {
+    this.torchEnabled = !this.torchEnabled;
   }
 
   ngOnDestroy() {
@@ -52,5 +109,41 @@ src: any;
         this.onError.emit(error);
       }
     });
+  }
+  CERTIFICATE_FILE = "certificate.json";
+  
+  showScanner: boolean = false;
+   contentOf:any
+  toggleScanner() {
+    this.showScanner = !this.showScanner;
+  }
+
+  onCodeResult(data: string) {
+    if (data) {
+      console.log('Scanned data:', data); // Log the initial scanned data
+      this.contentOf=data
+      console.log('Data type:', typeof data); // Log the type of the data
+      console.log('Data length:', data.length); // Log the length of the data
+
+      // If data is base64 encoded, decode it
+      const isBase64 = /^[A-Za-z0-9+/=]+$/.test(data);
+      const binaryData = isBase64 ? atob(data) : data;
+      const zip = new JSZip();
+      zip.loadAsync(binaryData)
+        .then((contents) => {
+          console.log('Zip contents:', contents); // Log the contents of the zip
+          this.contentOf= Object.keys(contents.files)
+          console.log('Files in zip:', Object.keys(contents.files));
+          return contents.files[this.CERTIFICATE_FILE].async('text');
+        })
+        .then((contents) => {
+          console.log('Unzipped file contents:', contents); // Log the unzipped file contents
+          this.result = contents;
+        })
+        .catch((err) => {
+          console.error('Error unzipping data:', err); // Log any errors
+          this.result = data;
+        });
+    }
   }
 }
