@@ -133,7 +133,7 @@ src: any;
       zip.loadAsync(binaryData)
         .then((contents) => {
           console.log('Zip contents:', contents); // Log the contents of the zip
-          this.contentOf= Object.keys(contents.files)
+          this.contentOf= contents.files[this.CERTIFICATE_FILE].async('text')
           console.log('Files in zip:', Object.keys(contents.files));
           return contents.files[this.CERTIFICATE_FILE].async('text');
         })
